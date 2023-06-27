@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const { verifyAccessToken } = require('./middleware/jwt.middleware')
+const { verifyAccessToken } = require('./src/middleware/jwt.middleware')
 
 //BEGIN Increase bodyParser size so that API can handle big image file byte array
 var bodyParser = require('body-parser');
@@ -22,15 +22,15 @@ mongoose.connect(process.env.DATABASE_URL)
 app.use(express.json())
 
 //Public APIs. No authentication needed
-const Router = require('./routers/v1/index.v1.routes')
+const Router = require('./src/routers/v1/index.v1.routes')
 app.use('/v1', Router)
 
 //Middleware to get token
-const authMiddlewareRouter = require('./middleware/auth.middleware')
+const authMiddlewareRouter = require('./src/middleware/auth.middleware')
 app.use('/jwt', authMiddlewareRouter)
 
 //Auth APIs. Authentication needed
-const authRouter = require('./routers/auth/index.auth.routes')
+const authRouter = require('./src/routers/auth/index.auth.routes')
 app.use('/auth', verifyAccessToken, authRouter)
 
 app.use('/', (req, res) => {

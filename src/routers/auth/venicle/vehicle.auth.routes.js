@@ -1,15 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const Vehicle = require('../../../models/vehicle')
+const vehicleList = require('../../../services/vehicle/list.vehicle.services')
 
 // Getting all
 router.get('/', async (req, res) => {
-  try {
-    const vehicles = await Vehicle.find()
-    res.json(vehicles)
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-  }
+  let data = await vehicleList.vehicleList()
+  res.json(data)
 })
 
 // Getting One
@@ -36,6 +33,29 @@ router.post('/', async (req, res) => {
   try {
     const newVehicle = await vehicle.save()
     res.status(201).json(newVehicle)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
+
+// update full
+router.put('/:id', getVehicle, async (req, res) => {
+  res.vehicle.name= req.body.name
+  res.vehicle.carType= req.body.carType
+  res.vehicle.seater= req.body.seater
+  res.vehicle.luggageAllowance= req.body.luggageAllowance
+  res.vehicle.baseFare= req.body.baseFare
+  res.vehicle.baseKm= req.body.baseKm
+  res.vehicle.ratePerKm= req.body.ratePerKm
+  res.vehicle.modelNo= req.body.modelNo
+  res.vehicle.description= req.body.description
+  res.vehicle.category= req.body.category
+  res.vehicle.tags= req.body.tags
+  res.vehicle.status= req.body.status
+
+  try {
+    const updateVehicle = await res.vehicle.save()
+    res.status(201).json(updateVehicle)
   } catch (err) {
     res.status(400).json({ message: err.message })
   }

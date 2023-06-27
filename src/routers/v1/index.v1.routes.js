@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const vehicle = require('./vehicle/vehicle.v1.routes')
+const vehicleRoute = require('./vehicle/vehicle.v1.routes')
 
 router.get('/', (req, res) => {
     res.send({
@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.use('/vehicle', vehicle);
+router.use('/vehicle', vehicleRoute);
 
 router.all('*', async (req, res) => {
     res.status(500).json({ message: 'Invalid Route' })
